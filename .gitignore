@@ -5,7 +5,7 @@
 .env.*
 !.env.example
 
-# ── Python ──────────────────────────��────────────────────
+# ── Python ───────────────────────────────────────────────
 __pycache__/
 *.pyc
 *.pyo
@@ -21,7 +21,7 @@ venv/
 env/
 .venv/
 
-# ── IDE ──────────────────────────────��────────────────────
+# ── IDE ──────────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
@@ -31,10 +31,9 @@ env/
 .DS_Store
 Thumbs.db
 
-# ── Docker volumes (local dev) ─────────────────────��──────
+# ── Docker volumes (local dev) ───────────────────────────
 data/
 volumes/
 
-=======
-C:\Users\minhk\day12\2A202600102_LeMinhKhang_ha-tang-cloud_va_deployment\01-localhost-vs-production\production\.env
->>>>>>> Stashed changes
+# ── OMX local state ──────────────────────────────────────
+.omx/

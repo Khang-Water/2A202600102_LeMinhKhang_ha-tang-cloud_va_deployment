@@ -1,100 +1,83 @@
-# Lab 12 — Complete Production Agent
+# Day 12 - Lab 06 Complete (Production Agent)
 
-Kết hợp TẤT CẢ những gì đã học trong 1 project hoàn chỉnh.
+Production-ready FastAPI agent for Day 12 submission.
 
-## Checklist Deliverable
+## Features
 
-- [x] Dockerfile (multi-stage, < 500 MB)
-- [x] docker-compose.yml (agent + redis)
-- [x] .dockerignore
-- [x] Health check endpoint (`GET /health`)
-- [x] Readiness endpoint (`GET /ready`)
-- [x] API Key authentication
-- [x] Rate limiting
-- [x] Cost guard
-- [x] Config từ environment variables
-- [x] Structured logging
-- [x] Graceful shutdown
-- [x] Public URL ready (Railway / Render config)
+- API key authentication (`X-API-Key`)
+- Rate limiting: **10 requests/minute** per user
+- Cost guard: **$10/month** per user
+- Health check: `GET /health`
+- Readiness check: `GET /ready`
+- Graceful shutdown (`SIGTERM`)
+- Stateless conversation history on Redis
+- Multi-stage Docker build (non-root runtime)
 
 ---
 
-## Cấu Trúc
+## Project structure
 
-```
+```text
 06-lab-complete/
 ├── app/
-│   ├── main.py         # Entry point — kết hợp tất cả
-│   ├── config.py       # 12-factor config
-│   ├── auth.py         # API Key + JWT
-│   ├── rate_limiter.py # Rate limiting
-│   └── cost_guard.py   # Budget protection
-├── Dockerfile          # Multi-stage, production-ready
-├── docker-compose.yml  # Full stack
-├── railway.toml        # Deploy Railway
-├── render.yaml         # Deploy Render
-├── .env.example        # Template
+│   ├── main.py
+│   ├── config.py
+│   ├── auth.py
+│   ├── rate_limiter.py
+│   └── cost_guard.py
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── .env.example
 ├── .dockerignore
-└── requirements.txt
+├── railway.toml
+└── render.yaml
 ```
 
 ---
 
-## Chạy Local
+## Run locally (Docker Compose)
 
 ```bash
-# 1. Setup
+cd 06-lab-complete
 cp .env.example .env
+docker compose up --build
+```
 
-# 2. Chạy với Docker Compose
-docker compose up
+### Quick tests
 
-# 3. Test
-curl http://localhost/health
+```bash
+# Health
+curl http://localhost:8000/health
 
-# 4. Lấy API key từ .env, test endpoint
+# Ready
+curl http://localhost:8000/ready
+
+# Auth required (expect 401)
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"test","question":"hello"}'
+
+# With API key
 API_KEY=$(grep AGENT_API_KEY .env | cut -d= -f2)
-curl -H "X-API-Key: $API_KEY" \
-     -X POST http://localhost/ask \
-     -H "Content-Type: application/json" \
-     -d '{"question": "What is deployment?"}'
+curl -X POST http://localhost:8000/ask \
+  -H "X-API-Key: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"user_id":"test","question":"Explain deployment"}'
 ```
 
 ---
 
-## Deploy Railway (< 5 phút)
+## Deploy
 
-```bash
-# Cài Railway CLI
-npm i -g @railway/cli
+- Railway: uses `railway.toml`
+- Render: uses `render.yaml` (set `REDIS_URL` as managed Redis URL)
 
-# Login và deploy
-railway login
-railway init
-railway variables set OPENAI_API_KEY=sk-...
-railway variables set AGENT_API_KEY=your-secret-key
-railway up
+Required environment variables:
 
-# Nhận public URL!
-railway domain
-```
+- `PORT`
+- `REDIS_URL`
+- `AGENT_API_KEY`
+- `RATE_LIMIT_PER_MINUTE`
+- `MONTHLY_BUDGET_USD`
 
----
-
-## Deploy Render
-
-1. Push repo lên GitHub
-2. Render Dashboard → New → Blueprint
-3. Connect repo → Render đọc `render.yaml`
-4. Set secrets: `OPENAI_API_KEY`, `AGENT_API_KEY`
-5. Deploy → Nhận URL!
-
----
-
-## Kiểm Tra Production Readiness
-
-```bash
-python check_production_ready.py
-```
-
-Script này kiểm tra tất cả items trong checklist và báo cáo những gì còn thiếu.

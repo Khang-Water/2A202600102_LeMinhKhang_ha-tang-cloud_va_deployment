@@ -45,6 +45,13 @@ day12_ha-tang-cloud_va_deployment/
 
 **Muốn học kỹ?** → [CODE_LAB.md](CODE_LAB.md) (3-4 giờ)
 
+## Day 12 Submission Artifacts
+
+- `MISSION_ANSWERS.md`: câu trả lời các exercise
+- `DEPLOYMENT.md`: thông tin deploy và lệnh test
+- `06-lab-complete/`: source code production-ready của Lab 06
+- `screenshots/`: ảnh minh chứng deploy (cần cập nhật ảnh thật trước khi nộp)
+
 ## Cách Học
 
 | Bước | Làm gì |

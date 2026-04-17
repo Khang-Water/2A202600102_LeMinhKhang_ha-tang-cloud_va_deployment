@@ -9,3 +9,9 @@ venv/
 *.md
 tests/
 .DS_Store
+app/demo-*.*
+app/docs/
+app/src/
+app/database/
+app/spec-final.md
+app/prototype-readme.md

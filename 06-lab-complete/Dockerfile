@@ -17,19 +17,24 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 # Stage 2: Runtime
 FROM python:3.11-slim AS runtime
 
-# Non-root user
-RUN groupadd -r agent && useradd -r -g agent -d /app agent
+# Non-root user (stable home for user-site packages)
+RUN groupadd -r agent && useradd -r -g agent -m -d /home/agent agent
 
 WORKDIR /app
 
 # Copy packages từ builder
 COPY --from=builder /root/.local /home/agent/.local
 
-# Copy application
-COPY app/ ./app/
-COPY utils/ ./utils/
+# Copy only production API modules (avoid shipping unrelated heavy files)
+COPY app/__init__.py ./app/
+COPY app/main.py ./app/
+COPY app/config.py ./app/
+COPY app/auth.py ./app/
+COPY app/rate_limiter.py ./app/
+COPY app/cost_guard.py ./app/
+COPY utils/mock_llm.py ./utils/
 
-RUN chown -R agent:agent /app
+RUN chown -R agent:agent /app /home/agent
 
 USER agent
 
