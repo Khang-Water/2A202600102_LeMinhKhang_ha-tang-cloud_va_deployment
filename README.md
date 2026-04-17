@@ -50,7 +50,7 @@ day12_ha-tang-cloud_va_deployment/
 - `MISSION_ANSWERS.md`: câu trả lời các exercise
 - `DEPLOYMENT.md`: thông tin deploy và lệnh test
 - `06-lab-complete/`: source code production-ready của Lab 06
-- `screenshots/`: ảnh minh chứng deploy (cần cập nhật ảnh thật trước khi nộp)
+- Deployment evidence: logs hoặc ảnh minh chứng deploy (ghi rõ trong `DEPLOYMENT.md`)
 
 ## Cách Học
 

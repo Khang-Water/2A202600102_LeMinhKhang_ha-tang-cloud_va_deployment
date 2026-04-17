@@ -70,7 +70,21 @@ railway variables list -s agent-api | grep AGENT_API_KEY
   - `/ask` with API key = 200
   - repeated requests trigger 429
 
-## Screenshots
-- [Deployment dashboard](screenshots/dashboard.png)
-- [Service running](screenshots/running.png)
-- [Test results](screenshots/test.png)
+## Deployment log evidence (no screenshots)
+
+Build/runtime evidence captured from Railway logs:
+
+```text
+Deploy complete
+Build time: 57.26 seconds
+Starting Healthcheck
+[1/1] Healthcheck succeeded!
+```
+
+App runtime evidence:
+
+```text
+INFO: Uvicorn running on http://0.0.0.0:8080
+GET /health -> 200 OK
+GET / -> 200 OK
+```

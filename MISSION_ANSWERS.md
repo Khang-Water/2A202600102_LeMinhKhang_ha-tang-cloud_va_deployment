@@ -47,7 +47,7 @@
 
 ### Exercise 3.1: Railway deployment
 - URL: `https://agent-api-production-1679.up.railway.app`
-- Screenshot: `screenshots/running.png`
+- Deployment evidence: build/runtime logs documented in `DEPLOYMENT.md`
 
 ### Exercise 3.2: Render vs Railway config
 - `railway.toml`: simple build/deploy blocks and health path.
